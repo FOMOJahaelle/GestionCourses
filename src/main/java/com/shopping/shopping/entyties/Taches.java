@@ -11,7 +11,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Setter
 @Getter
-//@Builder
+@Builder
 @Table(name = "taches")
 public class Taches implements Serializable {
 

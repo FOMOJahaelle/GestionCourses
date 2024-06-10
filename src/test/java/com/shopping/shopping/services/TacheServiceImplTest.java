@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ContextConfiguration(classes = {TacheServiceImpl.class})
 @ExtendWith(SpringExtension.class)
@@ -26,6 +26,7 @@ TacheService tacheService;
 @MockBean
     TacheRepository tacheRepository;
 private Taches taches;
+    private Taches tachesUpdate;
     @BeforeEach
     void setUp() {
         taches = new Taches();
@@ -60,12 +61,30 @@ private Taches taches;
 
     @Test
     void create() {
-    when(tacheRepository.save(taches)).thenReturn(taches);tacheService.create(taches);assertEquals(taches.getId(),1L);}
+    when(tacheRepository.save(taches)).thenReturn(taches);
+    tacheService.create(taches);
+    assertEquals(taches.getId(),1L);
+    }
+
     @Test
     void update() {
+        when(tacheRepository.getOne(taches.getId())).thenReturn(taches);
+        when(tacheRepository.save(taches)).thenReturn(tachesUpdate);
+
+        tachesUpdate = new Taches();
+        tachesUpdate.setId(1L);
+        tachesUpdate.setNameTache("specification des besoins");
+
+        Taches result = tacheService.update(tachesUpdate,1L);
+        assertEquals(tachesUpdate.getId(),taches.getId());
+        assertNotNull(result);
+        assertNotNull(taches);
     }
 
     @Test
     void delete() {
+        when(tacheRepository.getOne(taches.getId())).thenReturn(taches);
+        tacheService.delete(taches.getId());
+        verify(tacheRepository, times(1)).deleteById(taches.getId());
     }
 }
