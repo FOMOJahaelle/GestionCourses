@@ -6,6 +6,7 @@ import com.shopping.shopping.entyties.Course;
 import com.shopping.shopping.mapper.CourseMapper;
 import com.shopping.shopping.repositories.CourseRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class CourseServiceImpl implements CourseService {
     public CourseServiceImpl(CourseRepository courseRepository, CourseMapper courseMapper) {
         this.courseRepository = courseRepository;
         this.courseMapper = courseMapper;
+
     }
 
     @Override
@@ -64,4 +66,21 @@ public class CourseServiceImpl implements CourseService {
 
         courseRepository.deleteById(id);
     }
+
+    @Override
+    public boolean Archive(Course course) {
+//        int j =0;
+//      for(int i=0; i<=course.getTaches().size(); i++){
+//            if (course.getTaches().getFirst().getStatut()) {
+//                j++;
+//                if (j==course.getTaches().size()){
+//                    course.setArchive(true);
+//                }
+//            }else {
+//                course.setArchive(false);
+//            }
+//        }
+        return course.getArchive();
+    }
+
 }

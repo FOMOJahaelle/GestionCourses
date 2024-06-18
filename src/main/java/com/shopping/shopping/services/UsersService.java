@@ -10,5 +10,5 @@ public interface  UsersService {
     // retourne toutes les utilisateurs
     List<Users> findAll ();
     // retourne un utilisateur a partir de son nom d'utilisateur
-    List<Users>findByUserName(String username);
+    Users findByUserName(String username);
 }

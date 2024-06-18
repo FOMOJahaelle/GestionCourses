@@ -29,4 +29,11 @@ public class Taches implements Serializable {
     @ManyToOne
     @JoinColumn(name ="course_id")
     private Course course;
+
+    public Taches(Long id, String nameTache, String description, Boolean statut) {
+        this.id = id;
+        this.nameTache = nameTache;
+        this.description = description;
+        this.statut = statut;
+    }
 }

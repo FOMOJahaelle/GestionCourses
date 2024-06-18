@@ -1,5 +1,7 @@
 package com.shopping.shopping.entyties;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.shopping.shopping.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -9,8 +11,8 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Setter
-@Getter
+//@Setter
+//@Getter
 @Builder
 @Table(name = "utilisateur")
 public class Users implements Serializable {
@@ -23,9 +25,30 @@ public class Users implements Serializable {
     private String userName;
     @Column(nullable=false)
     private String passWord;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role")
+    @JsonProperty(value = "role", required = false)
+    private Role role;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Course> courses;
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+
+    public void setPassWord(String passWord) {
+        this.passWord = passWord;
+    }
+
+    public String getPassword() {
+        return passWord;
+    }
+
+    public String getUsername() {
+        return userName;
+    }
 
 
 }

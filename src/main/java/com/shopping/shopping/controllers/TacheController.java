@@ -80,6 +80,7 @@ public class TacheController {
     })
     @GetMapping("/all")
     public List<Taches> tacheList(){
+
         return tacheService.findAll();
     }
 
@@ -92,6 +93,7 @@ public class TacheController {
     })
     @DeleteMapping("/{id}")
     public void deleteTacheById(@PathVariable("id") Long id) {
+
         tacheService.delete(id);
     }
 
