@@ -101,6 +101,13 @@ private  final CourseService courseService;
         courseService.delete(id);
     }
 
+    @GetMapping("/archive")
+    public  boolean archive(Course course){
+        courseService.Archive(course);
+        return course.getArchive();
+    }
+
+
 
 
 }

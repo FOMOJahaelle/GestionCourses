@@ -16,4 +16,6 @@ public interface CourseService {
     CourseResponse update(CourseRequest course,Long id);
     void delete(Long id);
 boolean Archive (Course course);
+
+//    boolean Archive(Course course, Long id);
 }

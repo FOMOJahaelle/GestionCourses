@@ -1,5 +1,7 @@
 package com.shopping.shopping.services;
 
+import com.shopping.shopping.Dto.TacheDto;
+import com.shopping.shopping.Dto.TacheRequest;
 import com.shopping.shopping.entyties.Taches;
 import com.shopping.shopping.repositories.TacheRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,6 +28,8 @@ TacheService tacheService;
 @MockBean
     TacheRepository tacheRepository;
 private Taches taches;
+private TacheDto tache;
+private TacheRequest tacheRequest;
     private Taches tachesUpdate;
     @BeforeEach
     void setUp() {
@@ -62,7 +66,7 @@ private Taches taches;
     @Test
     void create() {
     when(tacheRepository.save(taches)).thenReturn(taches);
-    tacheService.create(taches);
+    tacheService.create(tache,1L);
     assertEquals(taches.getId(),1L);
     }
 
@@ -75,7 +79,7 @@ private Taches taches;
         tachesUpdate.setId(1L);
         tachesUpdate.setNameTache("specification des besoins");
 
-        Taches result = tacheService.update(tachesUpdate,1L);
+        Taches result = tacheService.update(tache,1L);
         assertEquals(tachesUpdate.getId(),taches.getId());
         assertNotNull(result);
         assertNotNull(taches);

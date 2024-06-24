@@ -1,5 +1,6 @@
 package com.shopping.shopping.controllers;
 
+import com.shopping.shopping.Dto.*;
 import com.shopping.shopping.entyties.Taches;
 import com.shopping.shopping.services.TacheService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,11 +36,11 @@ public class TacheController {
                                 schema = @Schema(implementation = Error.class))})
         })
 
-        @PostMapping
-        public Taches createTache(@RequestBody @Valid Taches tache) {
-
-        return tacheService.create(tache);
+        @PostMapping("/create")
+        public Taches createTache(@RequestBody @Valid TacheDto tache,  Long id) {
+        return tacheService.create(tache,id);
         }
+
 
     @Operation(summary = "obtenir une tache", description = "Obtenir une tache a partir de son identifiant")
     @ApiResponses(value = {
@@ -52,6 +53,7 @@ public class TacheController {
     })
     @GetMapping("/{id}")
     public Taches getOne(@PathVariable("id") Long id) {
+
         return tacheService.getOne(id);
     }
 
@@ -67,7 +69,7 @@ public class TacheController {
 
     })
     @PutMapping("/{id}")
-    public Taches updateCourse(@RequestBody @Valid Taches tache, @PathVariable Long id) {
+    public Taches updateTache(@RequestBody @Valid TacheDto tache, @PathVariable Long id) {
         return tacheService.update(tache,id);
     }
 
