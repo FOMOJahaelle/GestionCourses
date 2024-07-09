@@ -20,7 +20,9 @@ public interface UserRepository extends JpaRepository<Users,Long> {
     Optional<Users> findById(Long aLong);
 
     // retourne un utilisateur a partir de son nom d'utilisateur
-    Users findByUserName(String userName);
+  Users findByUserName(String userName);
+
+//    Optional<Users>findByUserName(String userName);
 //   Users CreateAccount(UserDto user);
 
 

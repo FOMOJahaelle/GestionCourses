@@ -9,10 +9,11 @@ import com.shopping.shopping.entyties.Taches;
 import com.shopping.shopping.mapper.TacheMapper;
 import com.shopping.shopping.repositories.CourseRepository;
 import com.shopping.shopping.repositories.TacheRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@AllArgsConstructor
 @Service
 public class TacheServiceImpl implements TacheService{
 
@@ -21,10 +22,9 @@ public class TacheServiceImpl implements TacheService{
 private final CourseRepository courseRepository;
 private  final TacheMapper tacheMapper;
 
-    public TacheServiceImpl(TacheRepository tacheRepository, CourseRepository courseRepository, TacheMapper tacheMapper) {
-        this.tacheRepository = tacheRepository;
-        this.courseRepository = courseRepository;
-        this.tacheMapper = tacheMapper;
+    @Override
+    public TacheDto save(TacheDto tache) {
+        return tacheRepository.save(tache);
     }
 
     /**
@@ -33,6 +33,7 @@ private  final TacheMapper tacheMapper;
      */
     @Override
     public Taches getOne(Long id) {
+
         return tacheRepository.getOne(id);
     }
 
@@ -49,13 +50,14 @@ private  final TacheMapper tacheMapper;
      * @return
      */
     @Override
-    public Taches create (TacheDto tache, Long id) {
-       Taches taches = new Taches();
+    public TacheDto create (TacheDto tache, Long id) {
+       TacheDto taches = new TacheDto();
         Course course = courseRepository.getOne(id);
+        Long idc = course.getId();
         taches.setNameTache(tache.getNameTache());
         taches.setDescription(tache.getDescription());
         taches.setStatut(tache.getStatut());
-        taches.setCourse(course);
+        taches.setCourse_id(idc);
         return  tacheRepository.save(taches);
 
 

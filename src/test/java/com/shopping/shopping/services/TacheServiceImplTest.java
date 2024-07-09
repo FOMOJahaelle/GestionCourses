@@ -34,8 +34,8 @@ private TacheRequest tacheRequest;
     @BeforeEach
     void setUp() {
         taches = new Taches();
-        taches.setId(1L);
-        taches.setNameTache("analyse et conception");
+       taches.setId(1L);
+        tache.setNameTache("analyse et conception");
 
         List<Taches> tachesList = new ArrayList<>();
         tachesList.add(taches);
@@ -45,9 +45,9 @@ private TacheRequest tacheRequest;
     @Test
     void getOne() {
         when(tacheRepository.getOne(taches.getId())).thenReturn(taches);
-        Taches taches1 = tacheService.getOne(taches.getId());
-        assertNotNull(taches);
-        assertEquals(taches1.getId(),taches.getId());
+        Taches taches1 = tacheService.getOne(1L);
+        assertNotNull(taches1);
+        assertEquals(1L,taches.getId());
 
     }
 

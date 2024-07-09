@@ -14,6 +14,7 @@ public class CourseMapper {
                 .name(courseRequest.getName())
                 .description(courseRequest.getDescription())
                 .dateCreation(courseRequest.getDateCreation())
+                .archive(courseRequest.getArchive())
                 .build();
     }
 
@@ -22,6 +23,7 @@ public class CourseMapper {
                 .name(course.getName())
                 .description(course.getDescription())
                 .dateCreation(course.getDateCreation())
+                .archive(course.getArchive())
                 .build();
     }
 }

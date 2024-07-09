@@ -11,35 +11,33 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import io.swagger.v3.oas.annotations.media.Content;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@AllArgsConstructor
 @RestController
-@RequestMapping("/api/tache")
+@RequestMapping("api/tache")
 public class TacheController {
 
     private final TacheService tacheService;
 
-    public TacheController(TacheService tacheService) {
 
-        this.tacheService = tacheService;
+    @Operation(summary = "creer une tache", description = "Creer une tache ")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Tache Cree",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Taches.class))}),
+            @ApiResponse(responseCode = "400", description = "la tache existe deja.",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Error.class))})
+    })
+
+    @PostMapping("/create")
+    public TacheDto createTache(@RequestBody @Valid TacheDto tache, Long id) {
+        return tacheService.create(tache, id);
     }
-
-        @Operation(summary = "creer une tache", description = "Creer une tache ")
-        @ApiResponses(value = {
-                @ApiResponse(responseCode = "200", description = "Tache Cree",
-                        content = {@Content(mediaType = "application/json",
-                                schema = @Schema(implementation = Taches.class))}),
-                @ApiResponse(responseCode = "400", description = "la tache existe deja.",
-                        content = {@Content(mediaType = "application/json",
-                                schema = @Schema(implementation = Error.class))})
-        })
-
-        @PostMapping("/create")
-        public Taches createTache(@RequestBody @Valid TacheDto tache,  Long id) {
-        return tacheService.create(tache,id);
-        }
 
 
     @Operation(summary = "obtenir une tache", description = "Obtenir une tache a partir de son identifiant")
@@ -70,7 +68,7 @@ public class TacheController {
     })
     @PutMapping("/{id}")
     public Taches updateTache(@RequestBody @Valid TacheDto tache, @PathVariable Long id) {
-        return tacheService.update(tache,id);
+        return tacheService.update(tache, id);
     }
 
     @Operation(summary = "Lister les taches", description = "Recuperer la liste de toutes les taches")
@@ -81,7 +79,7 @@ public class TacheController {
 
     })
     @GetMapping("/all")
-    public List<Taches> tacheList(){
+    public List<Taches> tacheList() {
 
         return tacheService.findAll();
     }
@@ -98,6 +96,6 @@ public class TacheController {
 
         tacheService.delete(id);
     }
+}
 
-    }
 

@@ -1,34 +1,47 @@
 package com.shopping.shopping.services;
 
+import com.shopping.shopping.Dto.JwtAuthenticationResponse;
+import com.shopping.shopping.Dto.LoginDto;
 import com.shopping.shopping.Dto.UserDto;
 import com.shopping.shopping.entyties.Users;
-import com.shopping.shopping.enums.Role;
 import com.shopping.shopping.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.shopping.shopping.securities.JwtService;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
+//@AllArgsConstructor
 @Service
+@AllArgsConstructor
 //@Transactional
 //@Qualifier("userDetailsService")
 
 public class UsersServiceImpl implements  UsersService{
-    @Autowired
-    private  final UserRepository userRepository;
+    //@Autowired
 
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+//    @Autowired
 
-//    private Logger LOGGER = (Logger) LoggerFactory.getLogger(getClass());
+    private final PasswordEncoder passwordEncoder;
+//    @Autowired
 
+    private final  JwtService jwtService;
+//    @Autowired
 
-    public UsersServiceImpl(UserRepository userRepository) {
+    private final  AuthenticationManager authenticationManager;
 
-        this.userRepository = userRepository;
-    }
 
     @Override
     public Users getOne(Long id) {
@@ -49,24 +62,36 @@ public class UsersServiceImpl implements  UsersService{
     }
 
     @Override
-    public  Users CreateAccount(UserDto user){
-        Users users = new Users();
-        users.setUserName(user.getUserName());
-        users.setPassWord(passwordEncoder.encode(users.getPassword()));
+    public Users CreateAccount(Users user) {
 
-//        if(userRepository.findAll().isEmpty()) {
-//            user.setRole("ROOT");
-//        }
-//        switch (user.getRole()) {
-//            case "ADMIN":
-//                users.setRole(Role.ADMIN);
-//                break;
-//            default:
-//                users.setRole(Role.ROOT);
-//                break;
-//        }
-        return userRepository.save(users);
-
-
+        return userRepository.save(user);
     }
+
+    @Override
+    public Users save(Users user) {
+
+        return userRepository.save(user);
+    }
+
+    @Override
+    public Users signup(UserDto request) {
+        var user = Users.builder().userName(request.getUsername())
+                .passWord(passwordEncoder.encode(request.getPassword()))
+                .role(request.getRole()).build();
+        userRepository.save(user);
+//        var jwt = jwtService.generateToken(user);
+        return userRepository.save(user);
+    }
+
+    @Override
+    public JwtAuthenticationResponse login(LoginDto request) {
+       authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+        var user = userRepository.findByUserName(request.getUsername());
+        var jwt = jwtService.generateToken(user);
+        return JwtAuthenticationResponse.builder().token(jwt).build();
+    }
+
+
+
 }

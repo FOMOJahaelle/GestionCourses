@@ -4,6 +4,7 @@ package com.shopping.shopping.controllers;
 import com.shopping.shopping.Dto.CourseRequest;
 import com.shopping.shopping.Dto.CourseResponse;
 import com.shopping.shopping.entyties.Course;
+import com.shopping.shopping.repositories.CourseRepository;
 import com.shopping.shopping.services.CourseService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -12,20 +13,18 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@AllArgsConstructor
 @RestController
 @RequestMapping("/api/course")
 public class CourseController {
 
 private  final CourseService courseService;
+private final CourseRepository courseRepository;
 
-    public CourseController(CourseService courseService) {
-
-        this.courseService = courseService;
-    }
 
     @Operation(summary = "creer une course", description = "Creer une course ")
     @ApiResponses(value = {
@@ -87,6 +86,17 @@ private  final CourseService courseService;
         return courseService.findAll();
     }
 
+    @Operation(summary = "avoir la liste des courses  archivees ou pas", description = "avoir la liste des courses  archivees ou pas")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Liste des courses",
+                    content = {@Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = Course.class)))})
+
+    })
+    @GetMapping("/statut")
+    public List<CourseResponse> StatutList(boolean archive){
+        return  courseService.findByCourseArchivee(archive);
+    }
 
     @Operation(summary = "Supprimer une course", description = " supprimer une course a partir de son identifiant")
     @ApiResponses(value = {
@@ -101,9 +111,24 @@ private  final CourseService courseService;
         courseService.delete(id);
     }
 
-    @GetMapping("/archive")
-    public  boolean archive(Course course){
-        courseService.Archive(course);
+    @Operation(summary = "archiver une course", description = "savoir si une course peut etre archiver ou pas")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "la Course est archivee "),
+            @ApiResponse(responseCode = "404", description = "Nous ne pouvons pas archiver cette course",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Error.class))})
+    })
+//
+//    @GetMapping("/archive")
+//    public  boolean archive(Course course){
+////       CourseResponse course= courseService.getOne(id);
+//        courseService.Archive(course);
+//        return course.getArchive();
+//    }
+    @PostMapping("/archive")
+    public  boolean archive(Long id){
+       CourseResponse course= courseService.getOne(id);
+//    courseService.Archive(course);
         return course.getArchive();
     }
 

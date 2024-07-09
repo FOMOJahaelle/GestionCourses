@@ -4,18 +4,22 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.shopping.shopping.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.*;
+
 @Data
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-//@Setter
-//@Getter
+@Setter
+@Getter
 @Builder
 @Table(name = "utilisateur")
-public class Users implements Serializable {
+public class Users  implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,30 +29,56 @@ public class Users implements Serializable {
     private String userName;
     @Column(nullable=false)
     private String passWord;
+//    @Column(nullable = false)
+//    private  String token;
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
-    @JsonProperty(value = "role", required = false)
     private Role role;
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Course> courses;
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
 
-    public void setPassWord(String passWord) {
-        this.passWord = passWord;
-    }
-
+    @Override
     public String getPassword() {
         return passWord;
     }
 
+
+    @Override
     public String getUsername() {
         return userName;
     }
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
 
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
 
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

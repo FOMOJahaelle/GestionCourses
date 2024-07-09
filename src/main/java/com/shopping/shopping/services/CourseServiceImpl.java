@@ -7,13 +7,15 @@ import com.shopping.shopping.entyties.Taches;
 import com.shopping.shopping.mapper.CourseMapper;
 import com.shopping.shopping.repositories.CourseRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-
+@AllArgsConstructor
 @Service
 public class CourseServiceImpl implements CourseService {
 
@@ -23,12 +25,6 @@ public class CourseServiceImpl implements CourseService {
  // private  final Taches tache;
 
   private final CourseMapper courseMapper;
-
-    public CourseServiceImpl(CourseRepository courseRepository, CourseMapper courseMapper) {
-        this.courseRepository = courseRepository;
-        this.courseMapper = courseMapper;
-
-    }
 
     @Override
     public CourseResponse getOne(Long id) {
@@ -42,6 +38,26 @@ public class CourseServiceImpl implements CourseService {
         return courseRepository.findAll().stream()
                 .map(courseMapper::mapToCourseResponse)
                 .toList();
+    }
+
+    @Override
+    public List<CourseResponse> findByCourseArchivee(Boolean archive) {
+        List <CourseResponse> courseResponses = new ArrayList<>();
+       List<CourseResponse> courses = courseRepository.findAll().stream()
+               .map(courseMapper::mapToCourseResponse)
+               .toList();
+       for(CourseResponse course:courses){
+           if(course.getArchive()==archive){
+               courseResponses.add(course);
+           }
+//           return courseResponses;
+       }
+        return courseResponses;
+    }
+
+    @Override
+    public List<CourseResponse> findByCourseNonArchive() {
+        return null;
     }
 
     @Override
@@ -72,20 +88,36 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public boolean Archive(Course course) {
-//                int j =0;
-//                List tache = new ArrayList<>();
-//     for(int i=0; i<=course.getTaches().size(); i++)
-        for(Taches tache:course.getTaches()){
-            if (tache.getStatut()==false) {
+//    public boolean Archive(Course course) {
+////   Optional<Course> course = courseRepository.findById(id);
+////
+////
+//        for(Taches tache:course.getTaches()){
+//            if (!tache.getStatut()) {
+//
+////                    course.setArchive(false);
+//
+//
+//            }else {
+//                course.setArchive(true);
+//            }
+//        }
+//        return course.getArchive();
+//    }
 
-                    course.setArchive(false);
+    public boolean Archive(Long id) {
+    Optional<Course> course = courseRepository.findById(id);
+
+        for(Taches tache:course.get().getTaches()){
+            if (!tache.getStatut()) {
+
+//                    course.setArchive(false);
+                course.get().setArchive(false);
 
             }else {
-                course.setArchive(true);
+                course.get().setArchive(true);
             }
         }
-        return course.getArchive();
+        return course.get().getArchive();
     }
-
 }

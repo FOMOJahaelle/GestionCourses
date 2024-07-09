@@ -30,19 +30,5 @@ public class Taches implements Serializable {
     @JoinColumn(name ="course_id")
     private Course course;
 
-//    public Taches(Long id, String nameTache, String description, Boolean statut) {
-//        this.id = id;
-//        this.nameTache = nameTache;
-//        this.description = description;
-//        this.statut = statut;
-//    }
 
-
-//    public Taches(Long id, String nameTache, String description, Boolean statut, Course course) {
-//        this.id = id;
-//        this.nameTache = nameTache;
-//        this.description = description;
-//        this.statut = statut;
-//        this.course = course;
-//    }
 }

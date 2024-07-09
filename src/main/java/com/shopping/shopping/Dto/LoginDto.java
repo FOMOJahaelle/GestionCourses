@@ -1,6 +1,5 @@
 package com.shopping.shopping.Dto;
 
-import com.shopping.shopping.enums.Role;
 import lombok.*;
 
 @NoArgsConstructor
@@ -8,8 +7,7 @@ import lombok.*;
 @Setter
 @Getter
 @Builder
-public class UserDto {
+public class LoginDto {
     private String username;
     private String password;
-    private Role role;
 }

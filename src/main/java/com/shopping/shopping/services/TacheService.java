@@ -9,10 +9,10 @@ import java.util.List;
 
 public interface TacheService {
 
-
+    TacheDto save(TacheDto tache);
     Taches getOne (Long id);
     List<Taches> findAll();
-  Taches create(TacheDto tache, Long id);
+  TacheDto create(TacheDto tache, Long id);
 //    TacheResponse create(TacheRequest tacheRequest);
     Taches update(TacheDto tache,Long id);
     void delete(Long id);

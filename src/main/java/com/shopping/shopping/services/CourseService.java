@@ -10,12 +10,14 @@ public interface CourseService {
 
     CourseResponse getOne (Long id);
     List<CourseResponse> findAll();
+    List<CourseResponse> findByCourseArchivee(Boolean archive);
+    List<CourseResponse> findByCourseNonArchive();
 
   List<CourseResponse> searchByTache(String nameTache);
     CourseResponse create(CourseRequest course);
     CourseResponse update(CourseRequest course,Long id);
     void delete(Long id);
-boolean Archive (Course course);
+//boolean Archive (CourseResponse course);
 
-//    boolean Archive(Course course, Long id);
+   boolean Archive(Long id);
 }

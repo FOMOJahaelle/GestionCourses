@@ -13,4 +13,5 @@ public class CourseRequest {
     private String name;
     private String description;
     private Date dateCreation;
+    private Boolean archive;
 }
