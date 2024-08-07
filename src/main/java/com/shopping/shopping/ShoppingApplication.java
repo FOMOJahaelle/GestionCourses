@@ -14,19 +14,18 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 //@AllArgsConstructor
 @SpringBootApplication
 @EnableScheduling
-public class ShoppingApplication  {
+public class ShoppingApplication {
 
 //	implements CommandLineRunner
-//	@Autowired
-//	UserRepository userRepository;
+//	private final UserRepository userRepository;
 //	@Autowired
 //	public BCryptPasswordEncoder bCryptPasswordEncoder() {
 //		return new BCryptPasswordEncoder();
 //	}
-//
-//
+
+
 //	private final BCryptPasswordEncoder passwordEncoder;
-//
+
 
 	public static void main(String[] args) {
 
@@ -39,17 +38,17 @@ public class ShoppingApplication  {
 //		Users users = new Users();
 //		users.setUserName("yonah");
 //		users.setPassWord(passwordEncoder.encode("yonah"));
-////		users.setRole(Role.ROOT);
+//		users.setRole(Role.USER);
 //
 //		Users users1 = new Users();
-//		users1.setUserName("joannah");
-//		users1.setPassWord(passwordEncoder.encode("joannah"));
-////		users1.setRole(Role.ADMIN);
+//		users1.setUserName("jahaelle");
+//		users1.setPassWord(passwordEncoder.encode("passion"));
+//     	users1.setRole(Role.ADMIN);
 //
 //		if(userRepository.findAll().isEmpty()) {
 //			 userRepository.save(users);
 //		 userRepository.save(users1);
 //      }
-
+//
 //	}
 }

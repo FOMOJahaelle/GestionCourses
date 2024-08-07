@@ -8,7 +8,6 @@ import lombok.*;
 @Getter
 @Builder
 public class TacheDto {
-
     private String nameTache;
     private String description;
     private Boolean statut;

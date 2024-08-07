@@ -67,7 +67,7 @@ private final CourseRepository courseRepository;
                             schema = @Schema(implementation = Error.class))})
 
     })
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public CourseResponse updateCourse(@RequestBody @Valid CourseRequest course, @PathVariable Long id) {
         return courseService.update(course,id);
     }

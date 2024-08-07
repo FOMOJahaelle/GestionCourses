@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 @AllArgsConstructor
 @RestController
+@CrossOrigin("*")
 @RequestMapping("api/users")
 public class UsersController{
 
@@ -61,6 +62,7 @@ public class UsersController{
 
         return usersService.signup(request);
     }
+
 //    public Users createAccount(@RequestBody Users user){
 //        return usersService.CreateAccount(user);
 //
