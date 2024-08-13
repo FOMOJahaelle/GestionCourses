@@ -14,12 +14,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/course")
+@PreAuthorize("hasAnyRole('ADMIN','USER')")
 public class CourseController {
 
 private  final CourseService courseService;
@@ -37,6 +39,7 @@ private final CourseRepository courseRepository;
 
     })
     @PostMapping("/create")
+    @PreAuthorize("hasAuthority('WRITE_PRIVILEGE') and hasRole('ADMIN')")
     public CourseResponse createCourse(@RequestBody @Valid CourseRequest course) {
         return courseService.create(course);
 
@@ -52,6 +55,7 @@ private final CourseRepository courseRepository;
                             schema = @Schema(implementation = Error.class))})
     })
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('READ_PRIVILEGE') and hasRole('ADMIN')")
     public CourseResponse getOne(@PathVariable("id") Long id) {
 
         return courseService.getOne(id);
@@ -81,6 +85,7 @@ private final CourseRepository courseRepository;
 
     })
     @GetMapping("/all")
+    @PreAuthorize("hasAuthority('READ_PRIVILEGE') and hasAnyRole('ADMIN','USER')")
     public List<CourseResponse> courseList(){
 
         return courseService.findAll();

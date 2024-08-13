@@ -89,7 +89,7 @@ public class UsersServiceImpl implements  UsersService{
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
         var user = userRepository.findByUserName(request.getUsername());
         var jwt = jwtService.generateToken(user);
-        return JwtAuthenticationResponse.builder().token(jwt).build();
+        return JwtAuthenticationResponse.builder().role(user.getRole().name()).token(jwt).build();
     }
 
 

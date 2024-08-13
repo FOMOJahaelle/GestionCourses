@@ -17,6 +17,7 @@ import java.util.function.Function;
 
 @Service
 public class JwtServiceImpl implements JwtService {
+
 //    //@Value("${jwt.secret}")
 //    @Value("${token.signing.key}")
 //    private String jwtSigningKey;
@@ -90,6 +91,7 @@ public class JwtServiceImpl implements JwtService {
 
 
     public String generateToken(UserDetails userDetails) {
+
         return generateToken(new HashMap<>(), userDetails);
     }
 
@@ -122,10 +124,12 @@ public class JwtServiceImpl implements JwtService {
     }
 
     private boolean isTokenExpired(String token) {
+
         return extractExpiration(token).before(new Date());
     }
 
     private Date extractExpiration(String token) {
+
         return extractClaim(token, Claims::getExpiration);
     }
 

@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import io.swagger.v3.oas.annotations.media.Content;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 @RestController
 @RequestMapping("api/tache")
+@PreAuthorize("hasAnyRole('ADMIN','USER')")
 public class TacheController {
 
     private final TacheService tacheService;
@@ -35,6 +37,7 @@ public class TacheController {
     })
 
     @PostMapping("/create")
+    @PreAuthorize("hasAuthority('WHRITE_PRIVILEGE') and hasRole('ADMIN')")
     public TacheDto createTache(@RequestBody @Valid TacheDto tache, Long id) {
         return tacheService.create(tache, id);
     }

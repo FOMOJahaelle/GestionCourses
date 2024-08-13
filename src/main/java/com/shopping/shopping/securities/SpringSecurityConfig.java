@@ -5,6 +5,7 @@ import com.shopping.shopping.services.Authencationervice;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -46,14 +47,15 @@ public class SpringSecurityConfig{
             "/configuration/security",
         "/swagger-resources",
         "/swagger-resources/**",
-           "/api/users/login",
-          "/api/users/create",
+           "/api/users/**",
+//          "/api/users/create",
     };
 
     private final JwtAuthorizationFilter  jwtAuthorizationFilter;
    private final Authencationervice userService;
 
     private final UserRepository userRepository;
+//    private final  UserDetailsService userDetailsService;
 
 
     @Bean
@@ -69,10 +71,10 @@ public class SpringSecurityConfig{
                 .authorizeHttpRequests(request -> request
                         .requestMatchers(Authority).permitAll()
 //                       .requestMatchers(POST,"/api/**").permitAll()
-                       .requestMatchers("/api/**").hasAuthority("ADMIN")
+                   .requestMatchers(HttpMethod.POST,"/api/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
-                .authenticationProvider(authenticationProvider())
+               .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
@@ -87,13 +89,15 @@ public class SpringSecurityConfig{
 //    public BCryptPasswordEncoder bCryptPasswordEncoder() {
 //        return new BCryptPasswordEncoder();
 ////    }
-//    @Bean
-//    public AuthenticationProvider authenticationProvider() {
-//        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-//      authProvider.setUserDetailsService(userService.userDetailsService());
-//        authProvider.setPasswordEncoder(passwordEncoder());
-//        return authProvider;
-//    }
+    @Bean
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+      authProvider.setUserDetailsService(userService.userDetailsService());
+        authProvider.setPasswordEncoder(passwordEncoder());
+        return authProvider;
+    }
+
+
 //
 //    @Bean
 //    public AuthenticationManager authenticationManager(AuthenticationConfiguration config)
@@ -118,15 +122,20 @@ public class SpringSecurityConfig{
         return config.getAuthenticationManager();
     }
 
-    @Bean
-    AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+//    @Bean
+//    AuthenticationProvider authenticationProvider() {
+//        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+//
+//        authProvider.setUserDetailsService(userDetailsService());
+//        authProvider.setPasswordEncoder(passwordEncoder());
+//
+//        return authProvider;
+//    }
 
-        authProvider.setUserDetailsService(userDetailsService());
-        authProvider.setPasswordEncoder(passwordEncoder());
-
-        return authProvider;
-    }
+//    @Bean
+//    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+//        return configuration.getAuthenticationManager();
+//    }
 //    @Bean
 //    CorsConfigurationSource corsConfigurationSource() {
 //        CorsConfiguration configuration = new CorsConfiguration();

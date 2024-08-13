@@ -1,16 +1,14 @@
 package com.shopping.shopping.enums;
+
+import lombok.RequiredArgsConstructor;
+
 //
-//import lombok.Getter;
-//import lombok.RequiredArgsConstructor;
-//
-//@RequiredArgsConstructor
+
+@RequiredArgsConstructor
 public enum Permission {
-//
-//    ADMIN_CREATE,
-//    ADMIN_READ,
-//    ADMIN_UPDATE,
-//    ADMIN_DELETE,
-//   ROOT_READ;
-//    @Getter
-//    private String permissions;
+
+    READ_PRIVILEGE,
+    WRITE_PRIVILEGE,
+    DELETE_PRIVILEGE,
+    UPDATE_PRIVILEGE,
 }
